@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Football GOAT – Official Vote</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: radial-gradient(circle at top, #1a2a6c, #b21f1f, #fdbb2d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .wrapper {
+            width: 95%;
+            height: 90vh;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 50px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+            position: relative;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #1a2a6c, #b21f1f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 50px;
+        }
+
+        .arena {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #eef2f3, #dfe9f3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            overflow: hidden;
+        }
+
+        button {
+            padding: 18px 36px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        #messi {
+            background: linear-gradient(135deg, #00c853, #0091ea);
+            color: white;
+            z-index: 2;
+        }
+
+        #messi:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 145, 234, 0.4);
+        }
+
+        #ronaldo {
+            position: absolute;
+            background: linear-gradient(135deg, #ff1744, #ff9100);
+            color: white;
+            z-index: 3;
+        }
+
+        #message {
+            margin-top: 40px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a2a6c;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.4s ease;
+        }
+
+        #message.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .taunt {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-size: 14px;
+            color: #999;
+            font-style: italic;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: red;
+            animation: fall 2s linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(600px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <h1>Who is the Best Football Player on Earth?</h1>
+        <div class="subtitle">Official Global Fan Vote</div>
+
+        <div class="arena" id="arena">
+            <button id="messi">Lionel Messi</button>
+            <button id="ronaldo">Cristiano Ronaldo</button>
+        </div>
+
+        <div id="message">You are the best 🐐⚽ History agrees.</div>
+
+        <div class="taunt" id="taunt">Ronaldo: “You can’t catch me 😜”</div>
+    </div>
+
+    <script>
+        const ronaldo = document.getElementById("ronaldo");
+        const messi = document.getElementById("messi");
+        const arena = document.getElementById("arena");
+        const message = document.getElementById("message");
+
+        // Faster & smarter Ronaldo movement
+        arena.addEventListener("mousemove", (e) => {
+            const rect = arena.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const btnX = ronaldo.offsetLeft + ronaldo.offsetWidth / 2;
+            const btnY = ronaldo.offsetTop + ronaldo.offsetHeight / 2;
+
+            const distance = Math.hypot(x - btnX, y - btnY);
+
+            if (distance < 120) {
+                const maxX = arena.clientWidth - ronaldo.offsetWidth;
+                const maxY = arena.clientHeight - ronaldo.offsetHeight;
+
+                ronaldo.style.left = Math.random() * maxX + "px";
+                ronaldo.style.top = Math.random() * maxY + "px";
+            }
+        });
+
+        // Messi click = victory
+        messi.addEventListener("click", () => {
+            message.classList.add("show");
+            messi.textContent = "Selected ✓";
+            messi.disabled = true;
+
+            // Confetti
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement("div");
+                confetti.className = "confetti";
+                confetti.style.left = Math.random() * window.innerWidth + "px";
+                confetti.style.top = "-20px";
+                confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 2000);
+            }
+        });
+    </script>
+
+</body>
+</html>
